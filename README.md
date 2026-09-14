@@ -1,27 +1,32 @@
-🛡️ SafeLens
+# 🛡️ SafeLens
 
-SafeLens is a phone-native, privacy-first personal safety mode that works through Android Quick Settings.
+**SafeLens is a phone-native, privacy-first personal safety mode that works through Android Quick Settings.**
 
 It is designed for people who may be traveling alone or facing a potentially unsafe situation, with primary use cases including women, students, commuters, and solo travelers.
 
-SafeLens is not a conventional emergency app. It is designed as a Quick Settings safety feature, similar to other phone-level controls that users can access directly from the system Quick Settings panel.
+SafeLens is **not a conventional emergency app**. It is designed as a **Quick Settings safety feature**, similar to other phone-level controls that users can access directly from the system Quick Settings panel.
 
-💡 Concept
+---
 
-SafeLens can be activated from Android Quick Settings, similar to Wi-Fi, Bluetooth, Mobile Data, or Location.
+# 💡 Concept
 
+SafeLens can be activated from **Android Quick Settings**, similar to Wi-Fi, Bluetooth, Mobile Data, or Location.
+
+```text
 🛡️ SafeLens OFF
        ↓
 User turns SafeLens ON
        ↓
 SafeLens safety mode becomes active
+```
 
 When the user says:
 
-"I am unsafe"
+> **"I am unsafe"**
 
 SafeLens immediately displays a safety check-in.
 
+```text
 ⚠️ SafeLens
 
 You said you are unsafe.
@@ -33,17 +38,19 @@ Are you okay?
 🟡 BAD / NEED HELP
 
 🔴 DANGER
+```
 
-At the same time, a 10-minute safety window begins.
+At the same time, a **10-minute safety window** begins.
 
 During these 10 minutes, SafeLens performs two checks in parallel:
 
-Waits for the user's SAFE / BAD / DANGER response.
-Detects predefined emergency voice phrases such as:
-"HELP!"
-"HELP HELP!"
-"SAVE ME!"
-"PLEASE HELP!"
+1. Waits for the user's SAFE / BAD / DANGER response.
+2. Detects predefined emergency voice phrases such as:
+
+   * "HELP!"
+   * "HELP HELP!"
+   * "SAVE ME!"
+   * "PLEASE HELP!"
 
 If danger is detected through either channel, SafeLens immediately escalates the safety event.
 
@@ -51,7 +58,11 @@ If the user confirms SAFE, the current safety event ends.
 
 If there is no response and no emergency voice signal for the complete 10-minute window, the current safety session ends without sending an emergency alert or location.
 
-🔄 Safety Flow
+---
+
+# 🔄 Safety Flow
+
+```text
 🛡️ SafeLens ON
        ↓
 User says "I am unsafe"
@@ -89,7 +100,13 @@ SAFE/BAD/DANGER      Detection                Timer
                          🛑 End Safety Session
                                   ↓
                          No alert / No location
-🏗️ System Architecture
+```
+
+---
+
+# 🏗️ System Architecture
+
+```text
                          📱 ANDROID PHONE
                                 │
                                 ▼
@@ -158,7 +175,13 @@ SAFE/BAD/DANGER      Detection                Timer
                        👨‍👩‍👧 Trusted         🚨 Emergency
                          Contacts              Response
                                                Dashboard
-🔄 Safety State Flow
+```
+
+---
+
+# 🔄 Safety State Flow
+
+```text
 🛡️ SAFELENS OFF
        │
        │ User activates from Quick Settings
@@ -198,31 +221,42 @@ Popup Response          Emergency Voice
                 ▼             ▼
              Family       Response
                            Dashboard
-🎙️ Dual-Channel Safety Monitoring
+```
 
-During the 10-minute safety window, SafeLens performs two safety checks simultaneously.
+---
 
-1. User Safety Check-in
+# 🎙️ Dual-Channel Safety Monitoring
+
+During the 10-minute safety window, SafeLens performs **two safety checks simultaneously**.
+
+## 1. User Safety Check-in
 
 The user can respond directly to the safety popup.
 
-Response	Action
-🟢 SAFE	End the current safety event
-🟡 BAD / NEED HELP	Start assistance and location sharing
-🔴 DANGER	Immediately trigger emergency escalation
-2. Emergency Voice Detection
+| Response           | Action                                   |
+| ------------------ | ---------------------------------------- |
+| 🟢 SAFE            | End the current safety event             |
+| 🟡 BAD / NEED HELP | Start assistance and location sharing    |
+| 🔴 DANGER          | Immediately trigger emergency escalation |
+
+---
+
+## 2. Emergency Voice Detection
 
 SafeLens detects a small predefined vocabulary of emergency phrases during the active safety session.
 
 Example phrases:
 
+```text
 "HELP!"
 "HELP HELP!"
 "SAVE ME!"
 "PLEASE HELP!"
+```
 
 If an emergency phrase is detected:
 
+```text
 🎙️ Emergency Voice Detected
           ↓
      🔴 DANGER
@@ -236,15 +270,19 @@ If an emergency phrase is detected:
 👨‍👩‍👧 Trusted Contacts
           +
 🚨 Response Dashboard
+```
 
-The prototype focuses on predefined emergency phrases rather than attempting to classify every type of shouting or distress sound.
+The prototype focuses on **predefined emergency phrases** rather than attempting to classify every type of shouting or distress sound.
 
-⏱️ 10-Minute Safety Window
+---
+
+# ⏱️ 10-Minute Safety Window
 
 The 10-minute window begins after the immediate safety popup is displayed.
 
 During this period:
 
+```text
                  10-MINUTE WINDOW
                          │
              ┌───────────┴───────────┐
@@ -256,13 +294,21 @@ During this period:
              └───────────┬───────────┘
                          ▼
                   Decision Engine
-SAFE
+```
+
+## SAFE
+
+```text
 🟢 SAFE
    ↓
 End current safety event
    ↓
 No emergency location sharing
-BAD / NEED HELP
+```
+
+## BAD / NEED HELP
+
+```text
 🟡 BAD / NEED HELP
         ↓
 📍 Get Location
@@ -272,7 +318,11 @@ BAD / NEED HELP
 👨‍👩‍👧 Trusted Contacts
         +
 🚨 Response Dashboard
-DANGER
+```
+
+## DANGER
+
+```text
 🔴 DANGER
      ↓
 Immediate escalation
@@ -284,7 +334,11 @@ Immediate escalation
 👨‍👩‍👧 Trusted Contacts
      +
 🚨 Response Dashboard
-Emergency Voice Detected
+```
+
+## Emergency Voice Detected
+
+```text
 🎙️ "HELP!"
        ↓
 🔴 DANGER
@@ -296,17 +350,22 @@ Immediate escalation
 👨‍👩‍👧 Trusted Contacts
        +
 🚨 Response Dashboard
-🛑 No Response Scenario
+```
+
+---
+
+# 🛑 No Response Scenario
 
 If:
 
-The user does not select SAFE
-The user does not select BAD / NEED HELP
-The user does not select DANGER
-No emergency voice phrase is detected
+* The user does not select SAFE
+* The user does not select BAD / NEED HELP
+* The user does not select DANGER
+* No emergency voice phrase is detected
 
 then after 10 minutes:
 
+```text
 ⏱️ 10 Minutes Completed
           ↓
 🛑 Current Safety Session Ends
@@ -315,17 +374,21 @@ then after 10 minutes:
 ❌ No Location Sharing
 ❌ No Family Notification
 ❌ No Response Dashboard Alert
+```
 
-The SafeLens Quick Settings mode can remain ON. Only the current safety session ends.
+The **SafeLens Quick Settings mode can remain ON**. Only the current safety session ends.
 
 The user can manually turn SafeLens OFF from Quick Settings.
 
-📍 Location & Emergency Architecture
+---
 
-Location is not continuously shared simply because SafeLens is ON.
+# 📍 Location & Emergency Architecture
+
+Location is **not continuously shared simply because SafeLens is ON**.
 
 Location sharing is triggered only when:
 
+```text
 🟡 BAD / NEED HELP
 
 OR
@@ -335,9 +398,11 @@ OR
 OR
 
 🎙️ Emergency Voice Detected
+```
 
 Then:
 
+```text
 📱 Android Phone
        ↓
 📍 Location Service
@@ -349,15 +414,19 @@ Then:
 👨‍👩‍👧 Trusted        🚨 Emergency
 Contacts              Response
                       Dashboard
+```
 
 For the prototype, the Emergency Response Dashboard represents the emergency-response side of the system.
 
 Direct integration with real police or government emergency systems would require authorized institutional APIs or integrations.
 
-🧠 AI / Voice Architecture
+---
 
-SafeLens is designed to prioritize on-device voice processing to reduce unnecessary transmission of audio.
+# 🧠 AI / Voice Architecture
 
+SafeLens is designed to prioritize **on-device voice processing** to reduce unnecessary transmission of audio.
+
+```text
 🎙️ Microphone
       ↓
 Audio Processing
@@ -373,76 +442,105 @@ Emergency Phrase Detection
       └── Emergency phrase
               ↓
           🔴 DANGER
+```
 
-The initial prototype uses a small predefined vocabulary:
+The initial prototype uses a **small predefined vocabulary**:
 
+```text
 HELP
 HELP HELP
 SAVE ME
 PLEASE HELP
+```
 
 Future versions may use a lightweight on-device acoustic/keyword model to improve detection.
 
 Raw audio should not be uploaded to the backend as part of the normal emergency workflow.
 
-🧩 Core Components
-📱 Android / Phone
-Quick Settings TileService
-SafeLens Controller
-Safety Session Manager
-Safety State Machine
-Foreground Service where required
-Microphone handling
-Emergency voice detection
-Location Service
-Safety notification / popup
-Timer management
-🧠 AI / Voice
-On-device speech/keyword detection
-Predefined emergency vocabulary
-Lightweight voice model
-Local processing
-Optional device-specific AI/NPU optimization in future versions
-☁️ Backend
-Emergency event API
-User management
-Trusted contact management
-Location updates
-Emergency event storage
-Authentication
-Real-time communication
-🚨 Emergency Response Dashboard
-Active emergency events
-User safety status
-Current location
-Event timestamp
-Assistance requests
-Emergency status
-Live/periodic location updates
-🛠️ Technology Stack
-Mobile
-Kotlin
-Android SDK
-Android Quick Settings TileService
-Android Foreground Services
-Android Location Services
-Android Notifications
-AI
-On-device speech/keyword detection
-Lightweight ML / keyword detection
-Optional device-specific AI/NPU optimization
-Backend
-REST API
-Database
-Authentication
-Real-time communication
-Dashboard
-React
-JavaScript
-HTML
-CSS
-Map integration
-📁 Project Structure
+---
+
+# 🧩 Core Components
+
+## 📱 Android / Phone
+
+* Quick Settings `TileService`
+* SafeLens Controller
+* Safety Session Manager
+* Safety State Machine
+* Foreground Service where required
+* Microphone handling
+* Emergency voice detection
+* Location Service
+* Safety notification / popup
+* Timer management
+
+## 🧠 AI / Voice
+
+* On-device speech/keyword detection
+* Predefined emergency vocabulary
+* Lightweight voice model
+* Local processing
+* Optional device-specific AI/NPU optimization in future versions
+
+## ☁️ Backend
+
+* Emergency event API
+* User management
+* Trusted contact management
+* Location updates
+* Emergency event storage
+* Authentication
+* Real-time communication
+
+## 🚨 Emergency Response Dashboard
+
+* Active emergency events
+* User safety status
+* Current location
+* Event timestamp
+* Assistance requests
+* Emergency status
+* Live/periodic location updates
+
+---
+
+# 🛠️ Technology Stack
+
+## Mobile
+
+* **Kotlin**
+* **Android SDK**
+* Android Quick Settings `TileService`
+* Android Foreground Services
+* Android Location Services
+* Android Notifications
+
+## AI
+
+* On-device speech/keyword detection
+* Lightweight ML / keyword detection
+* Optional device-specific AI/NPU optimization
+
+## Backend
+
+* REST API
+* Database
+* Authentication
+* Real-time communication
+
+## Dashboard
+
+* React
+* JavaScript
+* HTML
+* CSS
+* Map integration
+
+---
+
+# 📁 Project Structure
+
+```text
 SafeLens/
 │
 ├── android/
@@ -469,27 +567,41 @@ SafeLens/
 ├── README.md
 ├── .gitignore
 └── LICENSE
-🔐 Privacy
+```
+
+---
+
+# 🔐 Privacy
 
 Privacy is a core principle of SafeLens.
 
-Normal State
+## Normal State
+
+```text
 🛡️ SafeLens OFF
        ↓
 No safety monitoring
        ↓
 No location sharing
-SafeLens Active
+```
+
+## SafeLens Active
+
+```text
 🛡️ SafeLens ON
        ↓
 Ready for safety activation
+```
 
 After the user says:
 
+```text
 "I am unsafe"
+```
 
 an active safety session begins.
 
+```text
 "I am unsafe"
        ↓
 Immediate Safety Popup
@@ -497,17 +609,23 @@ Immediate Safety Popup
 10-Minute Safety Window
        ↓
 On-device emergency voice detection
-Emergency State
+```
+
+## Emergency State
+
+```text
 🔴 Emergency detected
        ↓
 📍 Location requested
        ↓
 ☁️ Required emergency information shared
+```
 
 Location is not continuously transmitted simply because SafeLens is enabled.
 
 If the 10-minute session ends normally:
 
+```text
 Session ends
      ↓
 No emergency event
@@ -515,32 +633,40 @@ No emergency event
 No location sharing
      ↓
 No emergency notification
-⚠️ Android Technical Constraints
+```
+
+---
+
+# ⚠️ Android Technical Constraints
 
 SafeLens is designed around Android's security and privacy restrictions.
 
-Android supports custom Quick Settings tiles through TileService. The tile itself should be treated as the control point for SafeLens, rather than assuming the tile service continuously runs all safety logic.
+Android supports custom Quick Settings tiles through `TileService`. The tile itself should be treated as the **control point for SafeLens**, rather than assuming the tile service continuously runs all safety logic.
 
-Microphone access requires appropriate Android permissions and foreground-service configuration. Modern Android also restricts starting microphone-related foreground services from the background. Therefore, the prototype will use Android-permitted microphone and foreground-service mechanisms rather than assuming unrestricted hidden background microphone access.
+Microphone access requires appropriate Android permissions and foreground-service configuration. Modern Android also restricts starting microphone-related foreground services from the background. Therefore, the prototype will use **Android-permitted microphone and foreground-service mechanisms** rather than assuming unrestricted hidden background microphone access.
 
 The implementation will be tested on the target iQOO device to verify:
 
-Quick Settings behavior
-Microphone permissions
-Foreground-service behavior
-Screen-lock behavior
-Location access
-Notifications
-Battery/background restrictions
-Network interruptions
-🚧 Project Status
+* Quick Settings behavior
+* Microphone permissions
+* Foreground-service behavior
+* Screen-lock behavior
+* Location access
+* Notifications
+* Battery/background restrictions
+* Network interruptions
 
-Prototype — Under Development
+---
 
-Current Goal
+# 🚧 Project Status
+
+**Prototype — Under Development**
+
+## Current Goal
 
 Build a working end-to-end demonstration of:
 
+```text
 Quick Settings
       ↓
 🛡️ SafeLens ON
@@ -563,9 +689,11 @@ End Session                    ▼
                          ☁️ Backend
                               ↓
                    🚨 Response Dashboard
+```
 
 At the same time:
 
+```text
 10-Minute Safety Window
           │
           ▼
@@ -579,12 +707,17 @@ Emergency Voice Detection
           │
           ▼
 📍 Location + Emergency Alert
-🌟 Core Innovation
+```
 
-SafeLens combines a phone-native Quick Settings safety mode, an immediate safety check-in, and time-limited emergency voice detection into a privacy-first safety mechanism.
+---
 
-Unlike a conventional emergency button that requires a direct emergency action, SafeLens provides a dual-channel safety mechanism:
+# 🌟 Core Innovation
 
+> **SafeLens combines a phone-native Quick Settings safety mode, an immediate safety check-in, and time-limited emergency voice detection into a privacy-first safety mechanism.**
+
+Unlike a conventional emergency button that requires a direct emergency action, SafeLens provides a **dual-channel safety mechanism**:
+
+```text
                 SafeLens
                    │
        ┌───────────┴───────────┐
@@ -599,84 +732,88 @@ SAFE/BAD/DANGER           HELP/SAVE ME
                    │
                    ▼
             Progressive Help
+```
 
 The user can explicitly request assistance through the popup, while predefined emergency voice phrases can trigger escalation when the user cannot interact with the phone.
 
-🎯 Prototype Roadmap
+---
 
-Android Quick Settings Tile
+# 🎯 Prototype Roadmap
 
-SafeLens ON/OFF
+* [ ] Android Quick Settings Tile
+* [ ] SafeLens ON/OFF
+* [ ] SafeLens state management
+* [ ] "I am unsafe" detection
+* [ ] Immediate safety popup
+* [ ] 10-minute safety timer
+* [ ] SAFE / BAD / DANGER states
+* [ ] Emergency voice phrase detection
+* [ ] Emergency escalation
+* [ ] Location service
+* [ ] Backend emergency API
+* [ ] Trusted contact notification
+* [ ] Emergency response dashboard
+* [ ] Periodic/live location updates after escalation
+* [ ] End-to-end prototype demonstration
+* [ ] Testing on target iQOO device
 
-SafeLens state management
+---
 
-"I am unsafe" detection
+# 👥 Team Responsibilities
 
-Immediate safety popup
+## Member 1 — Android / Device
 
-10-minute safety timer
-
-SAFE / BAD / DANGER states
-
-Emergency voice phrase detection
-
-Emergency escalation
-
-Location service
-
-Backend emergency API
-
-Trusted contact notification
-
-Emergency response dashboard
-
-Periodic/live location updates after escalation
-
-End-to-end prototype demonstration
-
-Testing on target iQOO device
-
-👥 Team Responsibilities
-Member 1 — Android / Device
+```text
 android/
 ai/
+```
 
 Responsible for:
 
-Quick Settings Tile
-SafeLens activation
-Voice trigger
-Safety popup
-10-minute safety session
-Emergency voice detection
-Safety state machine
-GPS/location
-Android permissions and services
-Member 2 — Backend / Dashboard
+* Quick Settings Tile
+* SafeLens activation
+* Voice trigger
+* Safety popup
+* 10-minute safety session
+* Emergency voice detection
+* Safety state machine
+* GPS/location
+* Android permissions and services
+
+## Member 2 — Backend / Dashboard
+
+```text
 backend/
 dashboard/
+```
 
 Responsible for:
 
-Backend API
-Database
-Trusted contacts
-Emergency event management
-Notifications
-Emergency response dashboard
-Map/location visualization
-Real-time/periodic location updates
-Both Members
-Integration
-Device testing
-Bug fixing
-Demo preparation
-Presentation
-Documentation
-🚀 Final Prototype Demo
+* Backend API
+* Database
+* Trusted contacts
+* Emergency event management
+* Notifications
+* Emergency response dashboard
+* Map/location visualization
+* Real-time/periodic location updates
+
+## Both Members
+
+* Integration
+* Device testing
+* Bug fixing
+* Demo preparation
+* Presentation
+* Documentation
+
+---
+
+# 🚀 Final Prototype Demo
 
 The final demonstration will show:
 
+```text
 1. User turns ON 🛡️ SafeLens
               ↓
 2. User says "I am unsafe"
@@ -702,10 +839,14 @@ The final demonstration will show:
               ↓
 11. Emergency Response Dashboard
     displays the active event and location
-🏁 Vision
+```
 
-SafeLens aims to make personal safety a phone-level capability, accessible directly from Quick Settings, while minimizing unnecessary location and audio data sharing.
+---
+
+# 🏁 Vision
+
+SafeLens aims to make personal safety a **phone-level capability**, accessible directly from Quick Settings, while minimizing unnecessary location and audio data sharing.
 
 The goal is not to continuously track the user.
 
-The goal is to provide short, privacy-aware, progressive protection when the user indicates that something may be wrong.
+The goal is to provide **short, privacy-aware, progressive protection when the user indicates that something may be wrong.**
