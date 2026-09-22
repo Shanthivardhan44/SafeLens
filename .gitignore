@@ -1,3 +1,10 @@
+# Backend / Node.js
+node_modules/
+.env
+.env.*
+!.env.example
+
+# Android / Gradle
 *.iml
 .gradle
 /local.properties
@@ -12,4 +19,6 @@
 /captures
 .externalNativeBuild
 .cxx
+
+# Android local configuration
 local.properties
