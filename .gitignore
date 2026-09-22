@@ -1,24 +1,62 @@
-# Backend / Node.js
+# =========================
+# Node.js / Dashboard
+# =========================
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Dependencies
 node_modules/
+
+# Build output
+dist/
+dist-ssr/
+
+# Local environment files
+*.local
 .env
 .env.*
 !.env.example
 
+
+# =========================
+# Editor
+# =========================
+
+.vscode/*
+!.vscode/extensions.json
+
+.idea/
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+
+# =========================
 # Android / Gradle
+# =========================
+
 *.iml
-.gradle
+.gradle/
 /local.properties
+
 /.idea/caches
 /.idea/libraries
 /.idea/modules.xml
 /.idea/workspace.xml
 /.idea/navEditor.xml
 /.idea/assetWizardSettings.xml
-.DS_Store
-/build
-/captures
-.externalNativeBuild
-.cxx
 
-# Android local configuration
-local.properties
+/build/
+/captures/
+/.externalNativeBuild/
+/.cxx
